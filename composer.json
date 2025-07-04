@@ -15,7 +15,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Korman\\Eloquentize\\": "src/"
+      "KobyKorman\\Eloquentize\\": "src/"
     }
   },
   "autoload-dev": {

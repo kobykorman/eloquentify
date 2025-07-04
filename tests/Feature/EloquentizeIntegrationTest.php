@@ -119,9 +119,9 @@ test('can transform a complex query with multiple nested relationships', functio
         ->get();
 
     // Set up model relationships
-    $commentMeta = new Korman\Eloquentize\ModelMeta(Comment::class);
-    $postMeta = new Korman\Eloquentize\ModelMeta(Post::class);
-    $profileMeta = new Korman\Eloquentize\ModelMeta(Profile::class);
+    $commentMeta = new KobyKorman\Eloquentize\ModelMeta(Comment::class);
+    $postMeta = new KobyKorman\Eloquentize\ModelMeta(Post::class);
+    $profileMeta = new KobyKorman\Eloquentize\ModelMeta(Profile::class);
 
     $postMeta->nest($commentMeta);
 
@@ -205,9 +205,9 @@ test('can handle real-world complex query with many-to-many relationships', func
         ->get();
 
     // Set up model relationships for transformation
-    $userMeta = new Korman\Eloquentize\ModelMeta(User::class);
-    $tagMeta = new Korman\Eloquentize\ModelMeta(Tests\Models\Tag::class);
-    $commentMeta = new Korman\Eloquentize\ModelMeta(Comment::class);
+    $userMeta = new KobyKorman\Eloquentize\ModelMeta(User::class);
+    $tagMeta = new KobyKorman\Eloquentize\ModelMeta(Tests\Models\Tag::class);
+    $commentMeta = new KobyKorman\Eloquentize\ModelMeta(Comment::class);
 
     // Transform using Post as the root model
     $posts = Post::eloquentize($results, [$userMeta, $tagMeta, $commentMeta]);

@@ -104,8 +104,8 @@ test('use case: blog posts with comments and author details', function () {
         ->get();
 
     // Transform the results
-    $userMeta = new Korman\Eloquentize\ModelMeta(User::class);
-    $commentMeta = new Korman\Eloquentize\ModelMeta(Comment::class);
+    $userMeta = new KobyKorman\Eloquentize\ModelMeta(User::class);
+    $commentMeta = new KobyKorman\Eloquentize\ModelMeta(Comment::class);
 
     $posts = Post::eloquentize($results, [$userMeta, $commentMeta]);
 
@@ -148,8 +148,8 @@ test('use case: performance comparison with standard Eloquent', function () {
         )
         ->get();
 
-    $commentMeta = new Korman\Eloquentize\ModelMeta(Comment::class);
-    $postMeta = new Korman\Eloquentize\ModelMeta(Post::class);
+    $commentMeta = new KobyKorman\Eloquentize\ModelMeta(Comment::class);
+    $postMeta = new KobyKorman\Eloquentize\ModelMeta(Post::class);
     $postMeta->nest($commentMeta);
 
     $usersEloquentize = User::eloquentize($results, [$postMeta]);
@@ -204,8 +204,8 @@ test('use case: complex filtering that would be difficult with standard Eloquent
         ->get();
 
     // Transform the results
-    $userMeta = new Korman\Eloquentize\ModelMeta(User::class);
-    $commentMeta = new Korman\Eloquentize\ModelMeta(Comment::class);
+    $userMeta = new KobyKorman\Eloquentize\ModelMeta(User::class);
+    $commentMeta = new KobyKorman\Eloquentize\ModelMeta(Comment::class);
 
     $posts = Post::eloquentize($results, [$userMeta, $commentMeta]);
 

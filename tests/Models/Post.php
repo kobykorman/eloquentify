@@ -3,7 +3,7 @@
 namespace Tests\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Korman\Eloquentize\EloquentizesQueries;
+use KobyKorman\Eloquentize\EloquentizesQueries;
 
 class Post extends Model
 {

@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Support\Collection;
-use Korman\Eloquentize\ModelMeta;
+use KobyKorman\Eloquentize\ModelMeta;
 use Tests\Models\User;
 use Tests\Models\Post;
 use Tests\Models\Comment;
