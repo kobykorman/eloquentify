@@ -1,6 +1,6 @@
 <?php
 
-use KobyKorman\Eloquentize\ModelMeta;
+use KobyKorman\Eloquentify\ModelMeta;
 use Tests\Models\User;
 use Tests\Models\Post;
 use Tests\Models\Comment;

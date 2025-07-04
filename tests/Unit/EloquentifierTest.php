@@ -2,13 +2,13 @@
 
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Support\Collection;
-use KobyKorman\Eloquentize\Eloquentizer;
-use KobyKorman\Eloquentize\ModelMeta;
+use KobyKorman\Eloquentify\Eloquentifier;
+use KobyKorman\Eloquentify\ModelMeta;
 use Tests\Models\User;
 use Tests\Models\Post;
 use Tests\Models\Comment;
 
-test('Eloquentizer transforms simple models correctly', function () {
+test('Eloquentifier transforms simple models correctly', function () {
     // Create a simple flat result of users
     $result = createQueryResult([
         ['id' => 1, 'name' => 'John Doe', 'email' => 'john@example.com'],
@@ -18,8 +18,8 @@ test('Eloquentizer transforms simple models correctly', function () {
     $userMeta = new ModelMeta(User::class);
     $userMeta->setRoot();
 
-    $eloquentizer = new Eloquentizer();
-    $users = $eloquentizer->transform($result, $userMeta);
+    $eloquentifier = new Eloquentifier();
+    $users = $eloquentifier->transform($result, $userMeta);
 
     expect($users)->toBeInstanceOf(EloquentCollection::class);
     expect($users)->toHaveCount(2);
@@ -28,7 +28,7 @@ test('Eloquentizer transforms simple models correctly', function () {
     expect($users[1]->name)->toBe('Jane Smith');
 });
 
-test('Eloquentizer transforms models with one-to-many relations', function () {
+test('Eloquentifier transforms models with one-to-many relations', function () {
     // Create a flat result of users with posts
     $result = createQueryResult([
         ['id' => 1, 'name' => 'John', 'post_id' => 10, 'post_title' => 'First Post', 'post_content' => 'Content 1'],
@@ -42,8 +42,8 @@ test('Eloquentizer transforms models with one-to-many relations', function () {
     $userMeta->nest($postMeta);
     $userMeta->setRoot();
 
-    $eloquentizer = new Eloquentizer();
-    $users = $eloquentizer->transform($result, $userMeta);
+    $eloquentifier = new Eloquentifier();
+    $users = $eloquentifier->transform($result, $userMeta);
 
     expect($users)->toHaveCount(2);
 
@@ -60,7 +60,7 @@ test('Eloquentizer transforms models with one-to-many relations', function () {
     expect($users[1]->posts[0]->title)->toBe('Jane\'s Post');
 });
 
-test('Eloquentizer transforms models with one-to-one relations', function () {
+test('Eloquentifier transforms models with one-to-one relations', function () {
     // Create a flat result of users with profiles
     $result = createQueryResult([
         ['id' => 1, 'name' => 'John', 'profile_id' => 100, 'profile_bio' => 'John\'s bio', 'profile_avatar' => 'john.jpg'],
@@ -73,8 +73,8 @@ test('Eloquentizer transforms models with one-to-one relations', function () {
     $userMeta->nest($profileMeta);
     $userMeta->setRoot();
 
-    $eloquentizer = new Eloquentizer();
-    $users = $eloquentizer->transform($result, $userMeta);
+    $eloquentifier = new Eloquentifier();
+    $users = $eloquentifier->transform($result, $userMeta);
 
     expect($users)->toHaveCount(2);
 
@@ -88,7 +88,7 @@ test('Eloquentizer transforms models with one-to-one relations', function () {
     expect($users[1]->profile->bio)->toBe('Jane\'s bio');
 });
 
-test('Eloquentizer transforms nested relations correctly', function () {
+test('Eloquentifier transforms nested relations correctly', function () {
     // Create a flat result with users, posts, and comments
     $result = createQueryResult([
         [
@@ -125,8 +125,8 @@ test('Eloquentizer transforms nested relations correctly', function () {
     $userMeta->nest($postMeta);
     $userMeta->setRoot();
 
-    $eloquentizer = new Eloquentizer();
-    $users = $eloquentizer->transform($result, $userMeta);
+    $eloquentifier = new Eloquentifier();
+    $users = $eloquentifier->transform($result, $userMeta);
 
     expect($users)->toHaveCount(1);
     expect($users[0]->posts)->toHaveCount(2);
@@ -143,7 +143,7 @@ test('Eloquentizer transforms nested relations correctly', function () {
     expect($users[0]->posts[1]->comments[0]->body)->toBe('Third comment');
 });
 
-test('Eloquentizer handles null relations (left joins) correctly', function () {
+test('Eloquentifier handles null relations (left joins) correctly', function () {
     // Create a flat result with users and optional posts (some users don't have posts)
     $result = createQueryResult([
         ['id' => 1, 'name' => 'John', 'post_id' => 10, 'post_title' => 'John\'s Post'],
@@ -157,8 +157,8 @@ test('Eloquentizer handles null relations (left joins) correctly', function () {
     $userMeta->nest($postMeta);
     $userMeta->setRoot();
 
-    $eloquentizer = new Eloquentizer();
-    $users = $eloquentizer->transform($result, $userMeta);
+    $eloquentifier = new Eloquentifier();
+    $users = $eloquentifier->transform($result, $userMeta);
 
     expect($users)->toHaveCount(3);
 
@@ -175,7 +175,7 @@ test('Eloquentizer handles null relations (left joins) correctly', function () {
     expect($users[2]->posts)->toHaveCount(1);
 });
 
-test('Eloquentizer throws exception for circular relationships', function () {
+test('Eloquentifier throws exception for circular relationships', function () {
     expect(function() {
         $meta1 = new ModelMeta(User::class);
         $meta2 = new ModelMeta(Post::class);
@@ -189,20 +189,20 @@ test('Eloquentizer throws exception for circular relationships', function () {
     })->toThrow(LogicException::class);
 });
 
-test('Eloquentizer handles completely empty result collections', function () {
+test('Eloquentifier handles completely empty result collections', function () {
     $result = collect();
 
     $userMeta = new ModelMeta(User::class);
     $userMeta->setRoot();
 
-    $eloquentizer = new Eloquentizer();
-    $users = $eloquentizer->transform($result, $userMeta);
+    $eloquentifier = new Eloquentifier();
+    $users = $eloquentifier->transform($result, $userMeta);
 
     expect($users)->toBeInstanceOf(EloquentCollection::class);
     expect($users)->toBeEmpty();
 });
 
-test('Eloquentizer handles results with only null relation columns', function () {
+test('Eloquentifier handles results with only null relation columns', function () {
     $result = createQueryResult([
         ['id' => 1, 'name' => 'John', 'post_id' => null, 'post_title' => null],
         ['id' => 2, 'name' => 'Jane', 'post_id' => null, 'post_title' => null],
@@ -214,15 +214,15 @@ test('Eloquentizer handles results with only null relation columns', function ()
     $userMeta->nest($postMeta);
     $userMeta->setRoot();
 
-    $eloquentizer = new Eloquentizer();
-    $users = $eloquentizer->transform($result, $userMeta);
+    $eloquentifier = new Eloquentifier();
+    $users = $eloquentifier->transform($result, $userMeta);
 
     expect($users)->toHaveCount(2);
     expect($users[0]->posts)->toHaveCount(0);
     expect($users[1]->posts)->toHaveCount(0);
 });
 
-test('Eloquentizer handles mixed null and non-null relations in same result set', function () {
+test('Eloquentifier handles mixed null and non-null relations in same result set', function () {
     $result = createQueryResult([
         ['id' => 1, 'name' => 'John', 'post_id' => 10, 'post_title' => 'John Post'],
         ['id' => 1, 'name' => 'John', 'post_id' => 11, 'post_title' => 'John Post 2'],
@@ -236,8 +236,8 @@ test('Eloquentizer handles mixed null and non-null relations in same result set'
     $userMeta->nest($postMeta);
     $userMeta->setRoot();
 
-    $eloquentizer = new Eloquentizer();
-    $users = $eloquentizer->transform($result, $userMeta);
+    $eloquentifier = new Eloquentifier();
+    $users = $eloquentifier->transform($result, $userMeta);
 
     expect($users)->toHaveCount(3);
     expect($users[0]->posts)->toHaveCount(2); // John has 2 posts
@@ -245,7 +245,7 @@ test('Eloquentizer handles mixed null and non-null relations in same result set'
     expect($users[2]->posts)->toHaveCount(1); // Bob has 1 post
 });
 
-test('Eloquentizer preserves model attributes correctly without mixing relations', function () {
+test('Eloquentifier preserves model attributes correctly without mixing relations', function () {
     $result = createQueryResult([
         [
             'id' => 1,
@@ -264,8 +264,8 @@ test('Eloquentizer preserves model attributes correctly without mixing relations
     $userMeta->nest($postMeta);
     $userMeta->setRoot();
 
-    $eloquentizer = new Eloquentizer();
-    $users = $eloquentizer->transform($result, $userMeta);
+    $eloquentifier = new Eloquentifier();
+    $users = $eloquentifier->transform($result, $userMeta);
 
     expect($users)->toHaveCount(1);
     expect($users[0]->name)->toBe('John');
@@ -278,7 +278,7 @@ test('Eloquentizer preserves model attributes correctly without mixing relations
     expect($users[0]->getAttributes())->not->toHaveKey('post_title');
 });
 
-test('Eloquentizer handles large datasets efficiently', function () {
+test('Eloquentifier handles large datasets efficiently', function () {
     // Generate 1000 rows of test data
     $data = [];
     for ($i = 1; $i <= 1000; $i++) {
@@ -300,10 +300,10 @@ test('Eloquentizer handles large datasets efficiently', function () {
     $userMeta->nest($postMeta);
     $userMeta->setRoot();
 
-    $eloquentizer = new Eloquentizer();
+    $eloquentifier = new Eloquentifier();
 
     $startTime = microtime(true);
-    $users = $eloquentizer->transform($result, $userMeta);
+    $users = $eloquentifier->transform($result, $userMeta);
     $duration = microtime(true) - $startTime;
 
     expect($users)->toHaveCount(1000);

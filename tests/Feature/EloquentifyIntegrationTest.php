@@ -81,8 +81,8 @@ test('can transform a simple query with one-to-many relationships', function () 
         )
         ->get();
 
-    // Transform using eloquentize
-    $users = User::eloquentize($results, [Post::class]);
+    // Transform using eloquentify
+    $users = User::eloquentify($results, [Post::class]);
 
     // Assertions
     expect($users)->toHaveCount(2);
@@ -119,14 +119,14 @@ test('can transform a complex query with multiple nested relationships', functio
         ->get();
 
     // Set up model relationships
-    $commentMeta = new KobyKorman\Eloquentize\ModelMeta(Comment::class);
-    $postMeta = new KobyKorman\Eloquentize\ModelMeta(Post::class);
-    $profileMeta = new KobyKorman\Eloquentize\ModelMeta(Profile::class);
+    $commentMeta = new KobyKorman\Eloquentify\ModelMeta(Comment::class);
+    $postMeta = new KobyKorman\Eloquentify\ModelMeta(Post::class);
+    $profileMeta = new KobyKorman\Eloquentify\ModelMeta(Profile::class);
 
     $postMeta->nest($commentMeta);
 
-    // Transform using eloquentize with multiple relations
-    $users = User::eloquentize($results, [$postMeta, $profileMeta]);
+    // Transform using eloquentify with multiple relations
+    $users = User::eloquentify($results, [$postMeta, $profileMeta]);
 
     // Assertions
     expect($users)->toHaveCount(2);
@@ -163,8 +163,8 @@ test('handles empty result sets gracefully', function () {
         )
         ->get();
 
-    // Transform using eloquentize
-    $users = User::eloquentize($results, [Post::class]);
+    // Transform using eloquentify
+    $users = User::eloquentify($results, [Post::class]);
 
     // Assertions
     expect($users)->toBeInstanceOf(Illuminate\Database\Eloquent\Collection::class);
@@ -205,12 +205,12 @@ test('can handle real-world complex query with many-to-many relationships', func
         ->get();
 
     // Set up model relationships for transformation
-    $userMeta = new KobyKorman\Eloquentize\ModelMeta(User::class);
-    $tagMeta = new KobyKorman\Eloquentize\ModelMeta(Tests\Models\Tag::class);
-    $commentMeta = new KobyKorman\Eloquentize\ModelMeta(Comment::class);
+    $userMeta = new KobyKorman\Eloquentify\ModelMeta(User::class);
+    $tagMeta = new KobyKorman\Eloquentify\ModelMeta(Tests\Models\Tag::class);
+    $commentMeta = new KobyKorman\Eloquentify\ModelMeta(Comment::class);
 
     // Transform using Post as the root model
-    $posts = Post::eloquentize($results, [$userMeta, $tagMeta, $commentMeta]);
+    $posts = Post::eloquentify($results, [$userMeta, $tagMeta, $commentMeta]);
 
     // Assertions
     expect($posts)->toHaveCount(3); // 3 posts in our test data

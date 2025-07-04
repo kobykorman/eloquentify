@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./assets/logo.png" alt="Eloquentize Logo" width="700">
+  <img src="./assets/logo.png" alt="Eloquentify Logo" width="700">
 </p>
 
 👎 ~~Lazy Loading (N+1 queries)~~
@@ -8,7 +8,7 @@
 
 😎 Greedy Loading (1 query)
 
-## Why Eloquentize?
+## Why Eloquentify?
 
 ### ⚡ Single Query: Replace N+1/R+1 queries with one efficient query
 ### 💯 Eloquent Models: Get real Eloquent models, not plain objects
@@ -17,12 +17,12 @@
 
 Using Eloquent can be costly in terms of how many queries are fired behind the scenes when a model has many relationships. What if we could leverage the database for what it was meant for while retaining the Eloquent experience?
 
-Eloquentize provides an easy way to transform the result of a single efficient custom query into fully functional nested Eloquent models, so you can continue enjoying the familiar Eloquent API and all of its benefits.
+Eloquentify provides an easy way to transform the result of a single efficient custom query into fully functional nested Eloquent models, so you can continue enjoying the familiar Eloquent API and all of its benefits.
 
 ## Installation
 
 ```bash
-composer require kobykorman/eloquentize
+composer require kobykorman/eloquentify
 ```
 
 ## Quick Start
@@ -35,7 +35,7 @@ use Illuminate\Database\Eloquent\Model as BaseModel;
 
 class Model extends BaseModel
 {
-    use EloquentizesQueries;
+    use EloquentifysQueries;
 }
 ```
 ### 2. Write the query:
@@ -63,7 +63,7 @@ class User extends Model
     
         // feed the result and the relations hierarchy
         // and get them all properly hydrated and nested
-        return User::eloquentize($result, [
+        return User::eloquentify($result, [
             Person::class
             Team::class,
             Role::nest(Permission::nest(

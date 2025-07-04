@@ -1,6 +1,6 @@
 <?php
 
-namespace KobyKorman\Eloquentize;
+namespace KobyKorman\Eloquentify;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;

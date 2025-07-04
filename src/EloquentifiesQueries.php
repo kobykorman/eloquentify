@@ -1,16 +1,16 @@
 <?php
 
-namespace KobyKorman\Eloquentize;
+namespace KobyKorman\Eloquentify;
 
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Support\Collection;
 
-trait EloquentizesQueries
+trait EloquentifiesQueries
 {
     // The API's access point and a wrapper around the actual tree building.
-    public static function eloquentize(Collection $result, array $relations): EloquentCollection
+    public static function eloquentify(Collection $result, array $relations): EloquentCollection
     {
-        return (new Eloquentizer())->transform($result, static::nest(...$relations)->setRoot());
+        return (new Eloquentifier())->transform($result, static::nest(...$relations)->setRoot());
     }
 
     // Wraps ModelMeta::nest(). Avoids "new ModelMeta()" boilerplate.

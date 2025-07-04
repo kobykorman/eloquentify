@@ -3,11 +3,11 @@
 namespace Tests\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use KobyKorman\Eloquentize\EloquentizesQueries;
+use KobyKorman\Eloquentify\EloquentifiesQueries;
 
 class Comment extends Model
 {
-    use EloquentizesQueries;
+    use EloquentifiesQueries;
 
     protected $fillable = [
         'post_id',

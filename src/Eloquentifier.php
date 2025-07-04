@@ -1,12 +1,12 @@
 <?php
 
-namespace KobyKorman\Eloquentize;
+namespace KobyKorman\Eloquentify;
 
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
-class Eloquentizer
+class Eloquentifier
 {
     /**
      * Recursively transforms a flat query result into hierarchical Eloquent relations.

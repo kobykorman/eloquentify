@@ -61,8 +61,8 @@ test('use case: dashboard with user activity stats', function () {
         ->orderBy('posts.created_at', 'desc')
         ->get();
 
-    // Transform using eloquentize
-    $users = User::eloquentize($results, [Post::class]);
+    // Transform using eloquentify
+    $users = User::eloquentify($results, [Post::class]);
 
     // Assertions
     expect($users)->toHaveCount(3); // All 3 users should be returned
@@ -104,10 +104,10 @@ test('use case: blog posts with comments and author details', function () {
         ->get();
 
     // Transform the results
-    $userMeta = new KobyKorman\Eloquentize\ModelMeta(User::class);
-    $commentMeta = new KobyKorman\Eloquentize\ModelMeta(Comment::class);
+    $userMeta = new KobyKorman\Eloquentify\ModelMeta(User::class);
+    $commentMeta = new KobyKorman\Eloquentify\ModelMeta(Comment::class);
 
-    $posts = Post::eloquentize($results, [$userMeta, $commentMeta]);
+    $posts = Post::eloquentify($results, [$userMeta, $commentMeta]);
 
     // Assertions
     expect($posts)->toHaveCount(8); // 5 posts for Alice + 3 posts for Bob
@@ -130,7 +130,7 @@ test('use case: performance comparison with standard Eloquent', function () {
     // Reset query count
     DB::enableQueryLog();
 
-    // Using eloquentize with a single custom query
+    // Using eloquentify with a single custom query
     $startTime = microtime(true);
 
     $results = DB::table('users')
@@ -148,13 +148,13 @@ test('use case: performance comparison with standard Eloquent', function () {
         )
         ->get();
 
-    $commentMeta = new KobyKorman\Eloquentize\ModelMeta(Comment::class);
-    $postMeta = new KobyKorman\Eloquentize\ModelMeta(Post::class);
+    $commentMeta = new KobyKorman\Eloquentify\ModelMeta(Comment::class);
+    $postMeta = new KobyKorman\Eloquentify\ModelMeta(Post::class);
     $postMeta->nest($commentMeta);
 
-    $usersEloquentize = User::eloquentize($results, [$postMeta]);
-    $eloquentizeTime = microtime(true) - $startTime;
-    $eloquentizeQueries = count(DB::getQueryLog());
+    $usersEloquentify = User::eloquentify($results, [$postMeta]);
+    $eloquentifyTime = microtime(true) - $startTime;
+    $eloquentifyQueries = count(DB::getQueryLog());
 
     // Reset for standard Eloquent test
     DB::flushQueryLog();
@@ -166,19 +166,19 @@ test('use case: performance comparison with standard Eloquent', function () {
     $eloquentQueries = count(DB::getQueryLog());
 
     // Assertions - check that both approaches return the same structure
-    expect($usersEloquentize)->toHaveCount($usersEloquent->count());
+    expect($usersEloquentify)->toHaveCount($usersEloquent->count());
 
-    // Key advantage: Eloquentize should use fewer queries
-    expect($eloquentizeQueries)->toBeLessThanOrEqual($eloquentQueries);
+    // Key advantage: Eloquentify should use fewer queries
+    expect($eloquentifyQueries)->toBeLessThanOrEqual($eloquentQueries);
 
     // Both should have the same data structure
-    if ($usersEloquentize->count() > 0) {
-        $user1 = $usersEloquentize->first();
+    if ($usersEloquentify->count() > 0) {
+        $user1 = $usersEloquentify->first();
         expect($user1->posts)->not->toBeNull();
     }
 
     // Output for informational purposes
-    echo "\nEloquentize queries: $eloquentizeQueries, time: {$eloquentizeTime}s";
+    echo "\nEloquentify queries: $eloquentifyQueries, time: {$eloquentifyTime}s";
     echo "\nStandard Eloquent queries: $eloquentQueries, time: {$eloquentTime}s\n";
 });
 
@@ -204,10 +204,10 @@ test('use case: complex filtering that would be difficult with standard Eloquent
         ->get();
 
     // Transform the results
-    $userMeta = new KobyKorman\Eloquentize\ModelMeta(User::class);
-    $commentMeta = new KobyKorman\Eloquentize\ModelMeta(Comment::class);
+    $userMeta = new KobyKorman\Eloquentify\ModelMeta(User::class);
+    $commentMeta = new KobyKorman\Eloquentify\ModelMeta(Comment::class);
 
-    $posts = Post::eloquentize($results, [$userMeta, $commentMeta]);
+    $posts = Post::eloquentify($results, [$userMeta, $commentMeta]);
 
     // Assertions
     expect($posts->count())->toBeGreaterThan(0);

@@ -1,9 +1,9 @@
 {
-  "name": "kobykorman/eloquentize",
+  "name": "kobykorman/eloquentify",
   "description": "Easily transform complex custom query results into fully hydrated hierarchical Eloquent models.",
   "keywords": ["laravel", "eloquent", "database", "orm", "optimization", "performance"],
   "license": "MIT",
-  "homepage": "https://github.com/kobykorman/eloquentize",
+  "homepage": "https://github.com/kobykorman/eloquentify",
   "require": {
     "php": ">=8.0",
     "laravel/framework": "^9.0|^10.0|^11.0|^12.0"
@@ -15,7 +15,7 @@
   },
   "autoload": {
     "psr-4": {
-      "KobyKorman\\Eloquentize\\": "src/"
+      "KobyKorman\\Eloquentify\\": "src/"
     }
   },
   "autoload-dev": {
