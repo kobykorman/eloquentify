@@ -2,6 +2,8 @@
   <img src="./assets/logo.png" alt="Eloquentify Logo" width="700">
 </p>
 
+## Eloquentify for Laravel
+
 👎 ~~Lazy Loading (N+1 queries)~~
 
 😑 ~~Eager Loading (R+1 queries)~~
@@ -17,7 +19,7 @@
 
 Using Eloquent can be costly in terms of how many queries are fired behind the scenes when a model has many relationships. What if we could leverage the database for what it was meant for while retaining the Eloquent experience?
 
-Eloquentify provides an easy way to transform the result of a single efficient custom query into fully functional nested Eloquent models, so you can continue enjoying the familiar Eloquent API and all of its benefits.
+Eloquentify easily transforms the result of a single custom query into nested Eloquent models, so you can continue enjoying the Eloquent API and all of its benefits.
 
 ## Installation
 
