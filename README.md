@@ -35,7 +35,7 @@ use Illuminate\Database\Eloquent\Model as BaseModel;
 
 class Model extends BaseModel
 {
-    use EloquentifysQueries;
+    use EloquentifiesQueries;
 }
 ```
 ### 2. Write the query:
